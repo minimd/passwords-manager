@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 //this is one way to use Provider in your app
 void main() {
+  Provider.debugCheckInvalidValueType = null;
   runApp(
     MultiProvider(
       providers: [

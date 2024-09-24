@@ -34,7 +34,8 @@ class MyHomePage extends StatelessWidget {
                             SingleCardScreen(cardItem: prov.cards[index])));
               },
               child: Container(
-                color: Colors.transparent,// to let the gesture detector work on plain spaces
+                color: Colors
+                    .transparent, // to let the gesture detector work on plain spaces
                 height: 70,
                 width: 300,
                 padding: const EdgeInsets.all(8.0),
@@ -54,21 +55,10 @@ class MyHomePage extends StatelessWidget {
                       child: SizedBox(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(prov.cards[index].username),
-                            Text(prov.cards[index].password)
-                          ],
+                          children: [Text(prov.cards[index].username)],
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle tap event to delete the card
-                        debugPrint('sui');
-                        prov.removeCard(prov.cards[index]);
-                      },
-                      child: const Icon(Icons.delete),
-                    )
                   ],
                 ),
               ),
@@ -77,12 +67,13 @@ class MyHomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('added a new card');
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddScreen()));
-          },
-          child: const Icon(Icons.add)),
+        onPressed: () {
+          print('added a new card');
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddScreen()));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

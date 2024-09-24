@@ -13,10 +13,11 @@ class CardsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeCard(Cards card) async {
+  Future<void> removeCard(Cards card) async {
     _cards = _cards.where((element) => element.id != card.id).toList();
     await deleteCardFromSharedPreferences(card.id);
     notifyListeners();
+    debugPrint(_cards.length.toString());
   }
 
   void editCard(Cards card, username, password, type, info) async {

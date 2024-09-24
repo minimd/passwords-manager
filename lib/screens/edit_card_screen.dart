@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:passes/models/cardsModel.dart';
 import 'package:passes/provider/cardsProvider.dart';
@@ -23,6 +24,34 @@ class EditCardScreen extends StatelessWidget {
           title: const Text('edit account'),
           centerTitle: true,
           toolbarHeight: 90,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                
+                AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType
+                            .warning, // You can use different types like INFO, ERROR, WARNING, etc.
+                        animType: AnimType
+                            .scale, // Animation type: BOTTOMSLIDE, SCALE, LEFTSLIDE, RIGHTSLIDE
+                        title: 'are you sure ?',
+                        btnOkOnPress: () {prov.removeCard(cardToEdit);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyHomePage()),
+                            //you can choose the last screen to destroy here.. or all of you do like me here
+                            //!IMPORTANT: i love you. handsome.
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        btnCancelOnPress: () {})
+                    .show();
+
+              },
+            )
+          ],
         ),
         body: Column(
           children: [
@@ -66,7 +95,8 @@ class EditCardScreen extends StatelessWidget {
                   ),
                   const SizedBox(
                     height: 28,
-                  ),TextField(
+                  ),
+                  TextField(
                     controller: infoController,
                     decoration: const InputDecoration(
                         hintText: 'optional',
@@ -79,8 +109,12 @@ class EditCardScreen extends StatelessWidget {
                   ),
                   FilledButton(
                       onPressed: () {
-                        prov.editCard(cardToEdit, userNameController.text,
-                            passwordController.text, typeController.text,infoController.text );
+                        prov.editCard(
+                            cardToEdit,
+                            userNameController.text,
+                            passwordController.text,
+                            typeController.text,
+                            infoController.text);
                         //ok stay with me.. this Navigator kind here DESTROYS ALL THE PREVIOUS SCREENS AND GOES TO THE NEW ONE..
                         //so there is no back button
                         Navigator.pushAndRemoveUntil(
