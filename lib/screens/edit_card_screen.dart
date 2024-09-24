@@ -1,9 +1,8 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:passes/models/cardsModel.dart';
 import 'package:passes/provider/cardsProvider.dart';
 import 'package:passes/screens/my_home_page.dart';
-import 'package:passes/screens/single_card_screen.dart';
 import 'package:provider/provider.dart';
 
 class EditCardScreen extends StatelessWidget {
@@ -28,26 +27,26 @@ class EditCardScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                
-                AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType
-                            .warning, // You can use different types like INFO, ERROR, WARNING, etc.
-                        animType: AnimType
-                            .scale, // Animation type: BOTTOMSLIDE, SCALE, LEFTSLIDE, RIGHTSLIDE
-                        title: 'are you sure ?',
-                        btnOkOnPress: () {prov.removeCard(cardToEdit);
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MyHomePage()),
-                            //you can choose the last screen to destroy here.. or all of you do like me here
-                            //!IMPORTANT: i love you. handsome.
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        btnCancelOnPress: () {})
-                    .show();
+                prov.removeCard(cardToEdit);
+                // AwesomeDialog(
+                //         context: context,
+                //         dialogType: DialogType
+                //             .warning, // You can use different types like INFO, ERROR, WARNING, etc.
+                //         animType: AnimType
+                //             .scale, // Animation type: BOTTOMSLIDE, SCALE, LEFTSLIDE, RIGHTSLIDE
+                //         title: 'are you sure ?',
+                //         btnOkOnPress: () {
+                //           Navigator.pushAndRemoveUntil(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => const MyHomePage()),
+                //             //you can choose the last screen to destroy here.. or all of you do like me here
+                //             //!IMPORTANT: i love you. handsome.
+                //             (Route<dynamic> route) => false,
+                //           );
+                    //     },
+                    //     btnCancelOnPress: () {})
+                    // .show();
 
               },
             )

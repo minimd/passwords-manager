@@ -1,9 +1,7 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:passes/models/cardsModel.dart';
 import 'package:passes/provider/CardsProvider.dart';
 import 'package:passes/screens/edit_card_screen.dart';
-import 'package:passes/screens/my_home_page.dart';
 import 'package:provider/provider.dart';
 
 class SingleCardScreen extends StatelessWidget {
@@ -33,7 +31,6 @@ class SingleCardScreen extends StatelessWidget {
                     );
                   },
                 ),
-               
               ],
             ),
             body: SingleChildScrollView(
