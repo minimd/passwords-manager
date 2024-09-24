@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:passes/provider/cardsProvider.dart';
-import 'package:passes/widgets/account_card.dart';
-import 'package:passes/widgets/cart.dart';
+import 'package:passes/screens/add_screen.dart';
+import 'package:passes/screens/single_card_screen.dart';
 import 'package:provider/provider.dart';
+// nothing so big. but! we didn't make a seperate widget for the cards cuz
+//we can't access the provider on there.. it's build context is different
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({
@@ -14,17 +16,27 @@ class MyHomePage extends StatelessWidget {
     final prov = Provider.of<CardsProvider>(context, listen: true);
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('My Passwords'),
-          toolbarHeight: 80,
-        ),
-        body: ListView.builder(
-          itemCount: prov.cards.length,
-          itemBuilder: (context, index) {
-            return Card(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('My Passwords'),
+        toolbarHeight: 80,
+      ),
+      body: ListView.builder(
+        itemCount: prov.cards.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SingleCardScreen(cardItem: prov.cards[index])));
+              },
               child: Container(
+                color: Colors.transparent,// to let the gesture detector work on plain spaces
                 height: 70,
+                width: 300,
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,9 +72,17 @@ class MyHomePage extends StatelessWidget {
                   ],
                 ),
               ),
-            );
-            ;
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print('added a new card');
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddScreen()));
           },
-        ));
+          child: const Icon(Icons.add)),
+    );
   }
 }

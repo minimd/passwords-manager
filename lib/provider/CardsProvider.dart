@@ -1,47 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:passes/models/cardsModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CardsProvider extends ChangeNotifier {
-  List<Cards> _cards = [
-    Cards(
-        imageUrl: 'assets/Steam-Logo.png',
-        username: 'john_doe',
-        password: 'p@ssw0rd',
-        type: 'Steam',
-        id: 1),
-    Cards(
-        // imageUrl: 'assets/Steam-Logo.png',
-        username: 'jasim',
-        password: 'p@ssw0rd',
-        type: 'Steam',
-        id: 2),
-    Cards(
-        imageUrl: 'assets/Steam-Logo.png',
-        username: 'messi',
-        password: 'p@ssw0rd',
-        type: 'microssoft',
-        id: 3),
-    Cards(
-        // imageUrl: 'assets/Steam-Logo.png',
-        username: 'john_doe',
-        password: 'suiiiiii',
-        type: 'Steam',
-        id: 4),
-  ];
+  List<Cards> _cards = [];
 
   get cards => _cards;
-  void addCard(Cards card) {
+
+  void addCard(Cards card) async {
     _cards.add(card);
+    await card.saveToSharedPreferences();
     notifyListeners();
   }
 
-  void removeCard(Cards card) {
+  void removeCard(Cards card) async {
     _cards = _cards.where((element) => element.id != card.id).toList();
+    await deleteCardFromSharedPreferences(card.id);
     notifyListeners();
-    print(_cards.length.toString());
   }
-}
-void another(Cards card) {
-  CardsProvider provider = CardsProvider();
-  provider.removeCard(card);
+
+  void editCard(Cards card, username, password, type, info) async {
+    await deleteCardFromSharedPreferences(card.id);
+
+    card.username = username;
+    card.password = password;
+    card.type = type;
+    card.info = info;
+    card.id = card.id;
+    await card.saveToSharedPreferences();
+    notifyListeners();
+  }
+
+  Future<List<Cards>> loadAllFromSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cardKeys = prefs.getKeys().where((key) => key.startsWith('card_'));
+    // List<Cards> loadedCards = [];
+
+    for (String key in cardKeys) {
+      final jsonString = prefs.getString(key);
+      if (jsonString != null) {
+        _cards.add(Cards.fromJsonString(jsonString));
+      }
+    }
+
+    return _cards;
+  }
+
+  Future<void> deleteCardFromSharedPreferences(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'card_$id';
+    await prefs.remove(key);
+  }
+
+  CardsProvider() {
+    _loadSavedCards();
+  }
+
+  Future<void> _loadSavedCards() async {
+    _cards = await loadAllFromSharedPreferences();
+    notifyListeners();
+  }
 }
